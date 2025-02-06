@@ -68,7 +68,7 @@ class ModelBuilding:
 
 if __name__ == "__main__":
     config_path = "params.yaml"
-    data_path = "./data/processed/train_processed_with_mean.csv"
+    data_path = "./data/processed/train_processed_with_median.csv"
 
     model_builder = ModelBuilding(config_path)
     model_builder.execute(data_path)
