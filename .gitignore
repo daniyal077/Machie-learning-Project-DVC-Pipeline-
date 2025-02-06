@@ -2,6 +2,7 @@ waterPotabilityEnv
 models
 reports
 .env
+dvc_data_storage
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

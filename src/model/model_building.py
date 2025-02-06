@@ -31,7 +31,7 @@ class ModelBuilding:
         """Split dataset into features (X) and target (y)."""
         try:
             X = df.drop("Potability", axis=1)
-            y = df["Potability"]
+            y = df["Potability"].astype(int) 
             return X, y
         except Exception as e:
             raise Exception(f"Error splitting data: {e}")
@@ -68,7 +68,7 @@ class ModelBuilding:
 
 if __name__ == "__main__":
     config_path = "params.yaml"
-    data_path = "./data/processed/train_processed.csv"
+    data_path = "./data/processed/train_processed_with_mean.csv"
 
     model_builder = ModelBuilding(config_path)
     model_builder.execute(data_path)

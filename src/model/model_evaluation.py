@@ -65,7 +65,7 @@ class ModelEvaluation:
             model = self.load_model()
 
             X_test = test_data.drop("Potability", axis=1)
-            y_test = test_data["Potability"]
+            y_test = test_data["Potability"].astype(int) 
 
             metrics = self.evaluate_model(model, X_test, y_test)
             
@@ -79,7 +79,7 @@ class ModelEvaluation:
 
 if __name__ == "__main__":
     model_path="./models/rf_model.pkl"
-    test_data_path="./data/processed/test_processed.csv"
+    test_data_path="./data/processed/test_processed_with_mean.csv"
     model_eval = ModelEvaluation(model_path, test_data_path)
     model_eval.execute()
 
