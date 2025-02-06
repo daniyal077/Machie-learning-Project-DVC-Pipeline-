@@ -24,7 +24,7 @@ Project Organization
     │                     
     ├── src                
     │   │
-    │   ├── data           <- Scripts to download or generate data
+    │   ├── data          
     │   │   └── data_collection.py
     │   │   └── data_preprocessing.py
     │   │
@@ -33,5 +33,5 @@ Project Organization
     │   │   ├── model_building.py
     │   │   └── model_evaluation.py
     │   │    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── tox.ini            
 
