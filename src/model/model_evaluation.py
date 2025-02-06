@@ -3,13 +3,18 @@ import pickle
 import numpy as np
 import json
 import yaml  # Missing import
+import yaml  # Missing import
 import os
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from dvclive import Live
 from dvclive import Live
 
 class ModelEvaluation:
     def __init__(self, model_path: str, test_data_path: str, config_file: str, result_path: str = "results"):
+    def __init__(self, model_path: str, test_data_path: str, config_file: str, result_path: str = "results"):
         """Initialize Model Evaluation with model file and test data path."""
+        self.config_file = config_file
+        self.config = self.load_params()  
         self.config_file = config_file
         self.config = self.load_params()  
         self.model_path = model_path
@@ -17,12 +22,21 @@ class ModelEvaluation:
         self.result_path = result_path
         os.makedirs(self.result_path, exist_ok=True)  
 
+
     def load_data(self):
         """Load test dataset from CSV file."""
         try:
             return pd.read_csv(self.test_data_path)
         except Exception as e:
             raise Exception(f"Error loading test data from {self.test_data_path}: {e}")
+
+    def load_params(self):
+        """Load model hyperparameters from a YAML file."""
+        try:
+            with open(self.config_file, "r") as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            raise Exception(f"Error loading parameters from {self.config_file}: {e}")
 
     def load_params(self):
         """Load model hyperparameters from a YAML file."""
@@ -90,10 +104,26 @@ class ModelEvaluation:
                 live.log_param("test_size", test_size) 
                 live.log_param("n_estimators", n_estimators)
 
+
+            test_size = self.config['data_collection']['test_size']
+            n_estimators = self.config['model_building']['n_estimators']  
+
+            with Live(save_dvc_exp=True) as live:
+                for key, value in metrics.items():
+                    live.log_metric(key, value)  
+                
+                live.log_param("test_size", test_size) 
+                live.log_param("n_estimators", n_estimators)
+
         except Exception as e:
             print(f"Error during model evaluation: {e}")
 
 if __name__ == "__main__":
+    model_path = "./models/rf_model.pkl"
+    test_data_path = "./data/processed/test_processed_with_mean.csv"
+    config_file = "./params.yaml"  
+
+    model_eval = ModelEvaluation(model_path, test_data_path, config_file)
     model_path = "./models/rf_model.pkl"
     test_data_path = "./data/processed/test_processed_with_mean.csv"
     config_file = "./params.yaml"  
