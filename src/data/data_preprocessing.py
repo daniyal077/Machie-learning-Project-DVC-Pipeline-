@@ -20,11 +20,11 @@ class DataPreprocessing:
         except Exception as e:
             raise ValueError(f"Error loading data from {file_path}: {e}")  
 
-    def fill_missing_values_mean(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Fill missing values with the column mean for numerical columns."""
+    def fill_missing_values_median(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Fill missing values with the column median for numerical columns."""
         try:
             for col in df.select_dtypes(include=[np.number]).columns:
-                df[col] = df[col].fillna(df[col].mean())  
+                df[col] = df[col].fillna(df[col].median())  
             return df 
         except Exception as e:
             raise ValueError(f"Error filling missing values: {e}")
@@ -59,13 +59,13 @@ class DataPreprocessing:
             train_data = self.load_data("train_data.csv")
             test_data = self.load_data("test_data.csv")
 
-            train_data = self.fill_missing_values_mean(train_data)
-            test_data = self.fill_missing_values_mean(test_data)
+            train_data = self.fill_missing_values_median(train_data)
+            test_data = self.fill_missing_values_median(test_data)
 
             train_data, test_data = self.scale_data(train_data, test_data)
 
-            self.save_data(train_data, "train_processed_with_mean.csv")
-            self.save_data(test_data, "test_processed_with_mean.csv")
+            self.save_data(train_data, "train_processed_with_median.csv")
+            self.save_data(test_data, "test_processed_with_median.csv")
 
             print("Data preprocessing complete.")
         except Exception as e:

@@ -79,7 +79,7 @@ class ModelEvaluation:
 
 if __name__ == "__main__":
     model_path="./models/rf_model.pkl"
-    test_data_path="./data/processed/test_processed_with_mean.csv"
+    test_data_path="./data/processed/test_processed_with_median.csv"
     model_eval = ModelEvaluation(model_path, test_data_path)
     model_eval.execute()
 
